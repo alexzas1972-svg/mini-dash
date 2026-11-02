@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-02T22:57:07+03:00",
+  "updatedAt": "2026-11-02T22:57:16+03:00",
   "rates": {
     "usdRub": 80.97,
     "btcUsd": 77304,
@@ -9,35 +9,35 @@
     {
       "city": "Сочи",
       "current": {
-        "temp": 12.8,
-        "feelsLike": 12.8,
-        "humidity": 93.0,
-        "wind": 2.1,
-        "condition": "Туман"
+        "temp": 12.3,
+        "feelsLike": 12.3,
+        "humidity": 85.0,
+        "wind": 2.5,
+        "condition": "Переменная облачность"
       },
       "daily": [
         {
           "date": "2026-11-02",
-          "tMin": 11.2,
-          "tMax": 12.8,
-          "condition": "Туман"
+          "tMin": 12.0,
+          "tMax": 12.3,
+          "condition": "Переменная облачность"
         },
         {
           "date": "2026-11-03",
-          "tMin": 11.6,
+          "tMin": 12.6,
           "tMax": 21.3,
-          "condition": "Пасмурно"
+          "condition": "Переменная облачность"
         },
         {
           "date": "2026-11-04",
-          "tMin": 13.2,
-          "tMax": 17.5,
+          "tMin": 14.4,
+          "tMax": 17.4,
           "condition": "Сильный дождь"
         },
         {
           "date": "2026-11-05",
           "tMin": 11.3,
-          "tMax": 15.4,
+          "tMax": 17.0,
           "condition": "Преимущественно ясно"
         }
       ]
