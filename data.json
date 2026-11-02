@@ -1,0 +1,93 @@
+{
+  "updatedAt": "2026-11-02T18:00:00+03:00",
+  "rates": {
+    "usdRub": 81.23,
+    "btcUsd": 112450,
+    "goldRubGram": 8450.5
+  },
+  "weather": [
+    {
+      "city": "Сочи",
+      "current": {
+        "temp": 14.2,
+        "feelsLike": 13.1,
+        "humidity": 70,
+        "wind": 3.4,
+        "condition": "Переменная облачность"
+      },
+      "daily": [
+        {
+          "date": "2026-11-02",
+          "tMin": 10,
+          "tMax": 16,
+          "condition": "Небольшой дождь"
+        },
+        {
+          "date": "2026-11-03",
+          "tMin": 11,
+          "tMax": 17,
+          "condition": "Солнечно"
+        }
+      ]
+    },
+    {
+      "city": "Владивосток",
+      "clockTimezone": "Asia/Vladivostok",
+      "current": {
+        "temp": 0,
+        "feelsLike": -2,
+        "humidity": 66,
+        "wind": 1.4,
+        "condition": "Ясно"
+      },
+      "daily": [
+        {
+          "date": "2026-11-03",
+          "tMin": -1,
+          "tMax": 9,
+          "condition": "Пасмурно"
+        }
+      ]
+    }
+  ],
+  "balances": [
+    {
+      "name": "DeepSeek",
+      "balanceUsd": 4.99,
+      "history": [
+        {
+          "date": "2026-10-30",
+          "value": 5.5
+        },
+        {
+          "date": "2026-11-02",
+          "value": 4.99
+        }
+      ]
+    },
+    {
+      "name": "OpenRouter",
+      "balanceUsd": 11.51,
+      "totalUsd": 35,
+      "history": [
+        {
+          "date": "2026-10-30",
+          "value": 12.8
+        },
+        {
+          "date": "2026-11-02",
+          "value": 11.51
+        }
+      ]
+    },
+    {
+      "name": "Suno",
+      "plan": "Premier",
+      "credits": 9270,
+      "creditsTotal": 10000,
+      "downloadsUsed": 20,
+      "downloadsTotal": 60,
+      "renewalDate": "2026-11-19"
+    }
+  ]
+}

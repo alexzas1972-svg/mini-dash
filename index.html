@@ -1,0 +1,1122 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#16181d">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="color-scheme" content="dark">
+  <title>Дашборд</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2316181d'/%3E%3Cpath d='M14 44V30M26 44V20M38 44V34M50 44V14' stroke='%236b8afd' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #16181d;
+      --card: #1e2128;
+      --line: rgba(255, 255, 255, 0.06);
+      --text: #e8eaed;
+      --muted: #9aa0a6;
+      --accent: #6b8afd;
+      --accent-soft: rgba(107, 138, 253, 0.14);
+      --red: #ff6b6b;
+      --warm: #ffbf69;
+      --radius: 14px;
+      --font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100svh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 14px;
+      line-height: 1.4;
+      font-variant-numeric: tabular-nums;
+      -webkit-font-smoothing: antialiased;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    .dashboard {
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: max(12px, env(safe-area-inset-top)) 12px max(18px, env(safe-area-inset-bottom));
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .topbar {
+      padding: 2px 2px 0;
+    }
+
+    .topbar-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 30px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.15;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+
+    .updated {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+
+    .stale-data .status-dot {
+      background: var(--warm);
+      box-shadow: 0 0 0 3px rgba(255, 191, 105, 0.12);
+    }
+
+    .stale {
+      margin: 8px 0 0;
+      padding: 5px 9px;
+      border: 1px solid rgba(255, 191, 105, 0.14);
+      border-radius: 8px;
+      background: rgba(255, 191, 105, 0.08);
+      color: var(--warm);
+      font-size: 11.5px;
+    }
+
+    .card {
+      min-width: 0;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--card);
+    }
+
+    .card-title {
+      margin: 0 0 5px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .rates {
+      padding-bottom: 7px;
+    }
+
+    .rate-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 7px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .rate-row:first-child {
+      padding-top: 1px;
+      border-top: 0;
+    }
+
+    .rate-label {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .rate-value {
+      flex: 0 0 auto;
+      font-size: 14.5px;
+      font-weight: 650;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+
+    .weather-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .weather-card {
+      padding: 12px 14px 11px;
+    }
+
+    .weather-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .weather-city {
+      min-width: 0;
+      margin: 0;
+      overflow-wrap: anywhere;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.25;
+    }
+
+    .clock {
+      flex: 0 0 auto;
+      min-width: 46px;
+      padding: 2px 7px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: rgba(255, 255, 255, 0.035);
+      color: var(--muted);
+      font-size: 11.5px;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    .weather-now {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .weather-main {
+      min-width: 0;
+    }
+
+    .weather-temp {
+      display: block;
+      font-size: 42px;
+      font-weight: 650;
+      line-height: 0.95;
+      letter-spacing: -0.045em;
+    }
+
+    .weather-condition {
+      display: block;
+      max-width: 200px;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.3;
+    }
+
+    .weather-meta {
+      flex: 0 0 auto;
+      display: grid;
+      gap: 4px;
+      min-width: 118px;
+    }
+
+    .meta-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
+    .meta-label {
+      color: var(--muted);
+    }
+
+    .meta-value {
+      font-weight: 550;
+      white-space: nowrap;
+    }
+
+    .forecast {
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px solid var(--line);
+    }
+
+    .forecast-grid {
+      display: grid;
+      gap: 5px;
+    }
+
+    .forecast-day {
+      display: grid;
+      grid-template-rows: 16px 22px 32px;
+      align-items: start;
+      justify-items: center;
+      min-width: 0;
+      padding: 0 3px;
+    }
+
+    .day-name {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 16px;
+      text-transform: lowercase;
+    }
+
+    .day-temps {
+      font-size: 12px;
+      font-weight: 550;
+      line-height: 22px;
+      white-space: nowrap;
+    }
+
+    .day-temp-min {
+      color: var(--muted);
+    }
+
+    .day-condition {
+      display: -webkit-box;
+      width: 100%;
+      height: 32px;
+      overflow: hidden;
+      color: var(--muted);
+      font-size: 10.5px;
+      line-height: 16px;
+      text-align: center;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+
+    .forecast-empty {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 70px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .balances-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .balance-card {
+      display: flex;
+      flex-direction: column;
+      padding: 12px;
+    }
+
+    .balance-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      min-height: 16px;
+      margin-bottom: 8px;
+    }
+
+    .balance-name {
+      min-width: 0;
+      overflow: hidden;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .plan-badge {
+      flex: 0 0 auto;
+      padding: 1px 5px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 9px;
+      line-height: 1.4;
+    }
+
+    .balance-value {
+      font-size: 22px;
+      font-weight: 650;
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+      white-space: nowrap;
+    }
+
+    .balance-currency {
+      margin-right: 1px;
+      color: var(--muted);
+      font-size: 16px;
+      font-weight: 550;
+    }
+
+    .balance-sub {
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.3;
+    }
+
+    .progress {
+      height: 5px;
+      margin-top: 9px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .progress-fill {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--accent);
+    }
+
+    .renewal {
+      margin-top: 9px;
+      font-size: 10.5px;
+      line-height: 1.35;
+    }
+
+    .downloads {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 9.5px;
+      line-height: 1.35;
+    }
+
+    .sparkline {
+      display: flex;
+      align-items: flex-end;
+      height: 35px;
+      margin-top: auto;
+      padding-top: 9px;
+      color: var(--muted);
+    }
+
+    .sparkline svg {
+      display: block;
+      width: 100%;
+      height: 26px;
+      overflow: visible;
+    }
+
+    .sparkline polyline {
+      fill: none;
+      stroke: var(--accent);
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-width: 1.8;
+    }
+
+    .sparkline.down polyline {
+      stroke: var(--red);
+    }
+
+    .sparkline-empty {
+      font-size: 11px;
+      line-height: 1;
+    }
+
+    .empty-card {
+      grid-column: 1 / -1;
+      padding: 14px;
+      text-align: center;
+    }
+
+    .empty-note {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (max-width: 460px) {
+      .balances-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .balance-card {
+        padding: 11px 12px;
+      }
+
+      .sparkline {
+        height: 31px;
+        padding-top: 7px;
+      }
+
+      .sparkline svg {
+        height: 24px;
+      }
+    }
+
+    @media (max-width: 340px) {
+      .weather-meta {
+        min-width: 106px;
+      }
+
+      .weather-temp {
+        font-size: 38px;
+      }
+
+      .weather-condition {
+        max-width: 150px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="dashboard">
+    <header class="topbar">
+      <div class="topbar-row">
+        <h1>Дашборд</h1>
+        <div class="updated" title="Последнее обновление данных">
+          <span class="status-dot" aria-hidden="true"></span>
+          <time id="updated-at">—</time>
+        </div>
+      </div>
+      <p id="stale-notice" class="stale" hidden>данные могли устареть</p>
+    </header>
+
+    <section class="card rates" aria-labelledby="rates-title">
+      <h2 class="card-title" id="rates-title">Курсы</h2>
+      <div id="rates-list"></div>
+    </section>
+
+    <section id="weather-list" class="weather-list" aria-label="Погода"></section>
+
+    <section aria-labelledby="balances-title">
+      <h2 class="sr-only" id="balances-title">Балансы</h2>
+      <div id="balances-list" class="balances-grid"></div>
+    </section>
+
+    <noscript>
+      <p class="stale">Для работы дашборда нужен JavaScript.</p>
+    </noscript>
+  </main>
+
+  <script>
+    (() => {
+      'use strict';
+
+      const REFRESH_INTERVAL = 10 * 60 * 1000;
+      const CLOCK_INTERVAL = 15 * 1000;
+      const SVG_NS = 'http://www.w3.org/2000/svg';
+      const MONTHS_SHORT = ['янв', 'февр', 'мар', 'апр', 'мая', 'июн', 'июл', 'авг', 'сент', 'окт', 'нояб', 'дек'];
+      const WEEKDAYS_SHORT = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'];
+      const RATE_DEFS = [
+        {
+          key: 'usdRub',
+          label: 'Доллар США',
+          format: (value) => `${numberFormat2.format(value)} ₽`
+        },
+        {
+          key: 'btcUsd',
+          label: 'Биткоин',
+          format: (value) => `${numberFormat0.format(value)} $`
+        },
+        {
+          key: 'goldRubGram',
+          label: 'Золото',
+          format: (value) => `${numberFormat1.format(value)} ₽/г`
+        }
+      ];
+
+      const numberFormat0 = new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 0 });
+      const numberFormat1 = new Intl.NumberFormat('ru-RU', {
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 1
+      });
+      const numberFormat2 = new Intl.NumberFormat('ru-RU', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+      const numberFormat1Max = new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 1 });
+
+      const nodes = {
+        updatedAt: document.getElementById('updated-at'),
+        staleNotice: document.getElementById('stale-notice'),
+        rates: document.getElementById('rates-list'),
+        weather: document.getElementById('weather-list'),
+        balances: document.getElementById('balances-list')
+      };
+
+      let lastData = null;
+      let clockTimer = null;
+      let requestInFlight = false;
+
+      function isRecord(value) {
+        return value !== null && typeof value === 'object' && !Array.isArray(value);
+      }
+
+      function isFiniteNumber(value) {
+        return typeof value === 'number' && Number.isFinite(value);
+      }
+
+      function createElement(tag, className, text) {
+        const element = document.createElement(tag);
+        if (className) element.className = className;
+        if (text !== undefined) element.textContent = String(text);
+        return element;
+      }
+
+      function asText(value) {
+        return typeof value === 'string' && value.trim() ? value.trim() : '—';
+      }
+
+      function pad2(value) {
+        return String(value).padStart(2, '0');
+      }
+
+      function parseDateParts(value) {
+        if (typeof value !== 'string') return null;
+        const match = value.match(/^(\d{4})-(\d{2})-(\d{2})/);
+        if (!match) return null;
+
+        const year = Number(match[1]);
+        const month = Number(match[2]);
+        const day = Number(match[3]);
+        if (month < 1 || month > 12 || day < 1 || day > 31) return null;
+
+        return { year, month, day };
+      }
+
+      function formatUpdatedAt(value) {
+        if (typeof value !== 'string' || !value.trim()) return '—';
+
+        const match = value.match(/^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2})/);
+        if (match) {
+          const month = Number(match[2]);
+          const day = Number(match[3]);
+          if (month >= 1 && month <= 12 && day >= 1 && day <= 31) {
+            return `${day} ${MONTHS_SHORT[month - 1]}, ${match[4]}:${match[5]}`;
+          }
+        }
+
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return '—';
+        return `${date.getDate()} ${MONTHS_SHORT[date.getMonth()]}, ${pad2(date.getHours())}:${pad2(date.getMinutes())}`;
+      }
+
+      function formatTemperature(value) {
+        if (!isFiniteNumber(value)) return '—';
+        const formatted = numberFormat1Max.format(value);
+        return value > 0 ? `+${formatted}°` : `${formatted}°`;
+      }
+
+      function formatWeekday(value) {
+        const parts = parseDateParts(value);
+        if (!parts) return '—';
+        const date = new Date(parts.year, parts.month - 1, parts.day);
+        return WEEKDAYS_SHORT[date.getDay()];
+      }
+
+      function daysUntil(value) {
+        const parts = parseDateParts(value);
+        if (!parts) return null;
+
+        const now = new Date();
+        const todayUtc = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+        const targetUtc = Date.UTC(parts.year, parts.month - 1, parts.day);
+        return Math.round((targetUtc - todayUtc) / 86400000);
+      }
+
+      function formatRenewal(value) {
+        const days = daysUntil(value);
+        if (days === null) return 'Осталось —';
+        if (days > 1) return `Осталось ${days} дней`;
+        if (days === 1) return 'Остался 1 день';
+        if (days === 0) return 'Продление сегодня';
+        return 'Срок продления истёк';
+      }
+
+      function renewalTitle(value) {
+        const parts = parseDateParts(value);
+        if (!parts) return '';
+        return `Продление: ${parts.day} ${MONTHS_SHORT[parts.month - 1]} ${parts.year}`;
+      }
+
+      function setStale(isStale) {
+        nodes.staleNotice.hidden = !isStale;
+        document.documentElement.classList.toggle('stale-data', isStale);
+      }
+
+      function clearClockTimer() {
+        if (clockTimer !== null) {
+          window.clearInterval(clockTimer);
+          clockTimer = null;
+        }
+      }
+
+      function renderHeader(data) {
+        const updatedAt = isRecord(data) ? data.updatedAt : null;
+        const formatted = formatUpdatedAt(updatedAt);
+
+        nodes.updatedAt.textContent = formatted;
+        if (typeof updatedAt === 'string' && updatedAt) {
+          nodes.updatedAt.setAttribute('datetime', updatedAt);
+        } else {
+          nodes.updatedAt.removeAttribute('datetime');
+        }
+      }
+
+      function renderRates(rates) {
+        const source = isRecord(rates) ? rates : {};
+        nodes.rates.replaceChildren();
+
+        for (const definition of RATE_DEFS) {
+          const row = createElement('div', 'rate-row');
+          const value = source[definition.key];
+          row.append(
+            createElement('span', 'rate-label', definition.label),
+            createElement('span', 'rate-value', isFiniteNumber(value) ? definition.format(value) : '—')
+          );
+          nodes.rates.append(row);
+        }
+      }
+
+      function createMetaRow(label, value) {
+        const row = createElement('div', 'meta-row');
+        row.append(
+          createElement('span', 'meta-label', label),
+          createElement('span', 'meta-value', value)
+        );
+        return row;
+      }
+
+      function createTimeFormatter(timeZone) {
+        try {
+          return new Intl.DateTimeFormat('ru-RU', {
+            timeZone,
+            hour: '2-digit',
+            minute: '2-digit',
+            hourCycle: 'h23'
+          });
+        } catch (error) {
+          console.warn('Не удалось создать формат времени для', timeZone, error);
+          return null;
+        }
+      }
+
+      function updateClocks(clocks) {
+        const now = new Date();
+        for (const clock of clocks) {
+          if (!clock.formatter) {
+            clock.element.textContent = '—';
+            continue;
+          }
+
+          try {
+            clock.element.textContent = clock.formatter.format(now);
+          } catch (error) {
+            console.warn('Не удалось обновить часы для', clock.timeZone, error);
+            clock.element.textContent = '—';
+          }
+        }
+      }
+
+      function getClockTimeZone(weather) {
+        if (typeof weather.clockTimezone === 'string' && weather.clockTimezone.trim()) {
+          return weather.clockTimezone.trim();
+        }
+        if (weather.city === 'Владивосток') return 'Asia/Vladivostok';
+        return null;
+      }
+
+      function createWeatherCard(weather, clocks) {
+        const card = createElement('section', 'card weather-card');
+        const city = asText(weather.city);
+        if (city !== '—') card.setAttribute('aria-label', `Погода: ${city}`);
+
+        const head = createElement('div', 'weather-head');
+        head.append(createElement('h2', 'weather-city', city));
+
+        const timeZone = getClockTimeZone(weather);
+        if (timeZone) {
+          const clock = createElement('span', 'clock');
+          const clockTime = createElement('span', 'clock-time', '—');
+          clock.title = timeZone;
+          clock.setAttribute('aria-label', 'Текущее время');
+          clock.append(clockTime);
+          head.append(clock);
+          clocks.push({
+            element: clockTime,
+            timeZone,
+            formatter: createTimeFormatter(timeZone)
+          });
+        }
+
+        card.append(head);
+
+        const current = isRecord(weather.current) ? weather.current : {};
+        const now = createElement('div', 'weather-now');
+        const main = createElement('div', 'weather-main');
+        main.append(
+          createElement('span', 'weather-temp', formatTemperature(current.temp)),
+          createElement('div', 'weather-condition', asText(current.condition))
+        );
+
+        const meta = createElement('div', 'weather-meta');
+        meta.append(
+          createMetaRow('Ощущается', formatTemperature(current.feelsLike)),
+          createMetaRow(
+            'Ветер',
+            isFiniteNumber(current.wind) ? `${numberFormat1Max.format(current.wind)} м/с` : '—'
+          ),
+          createMetaRow(
+            'Влажность',
+            isFiniteNumber(current.humidity) ? `${numberFormat0.format(current.humidity)}%` : '—'
+          )
+        );
+
+        now.append(main, meta);
+        card.append(now);
+
+        const forecast = createElement('div', 'forecast');
+        const daily = Array.isArray(weather.daily)
+          ? weather.daily.filter(isRecord).slice(0, 7)
+          : [];
+
+        if (!daily.length) {
+          forecast.append(createElement('div', 'forecast-empty', 'Прогноз —'));
+        } else {
+          const grid = createElement('div', 'forecast-grid');
+          grid.style.gridTemplateColumns = `repeat(${daily.length}, minmax(0, 1fr))`;
+
+          for (const day of daily) {
+            const cell = createElement('div', 'forecast-day');
+            const dayName = formatWeekday(day.date);
+            const minText = formatTemperature(day.tMin);
+            const maxText = formatTemperature(day.tMax);
+            const condition = asText(day.condition);
+
+            if (dayName !== '—') {
+              cell.setAttribute(
+                'aria-label',
+                `${dayName}: от ${minText} до ${maxText}, ${condition}`
+              );
+            }
+
+            const temps = createElement('span', 'day-temps');
+            temps.append(
+              createElement('span', 'day-temp-min', minText),
+              document.createTextNode(' / '),
+              createElement('span', 'day-temp-max', maxText)
+            );
+
+            cell.append(
+              createElement('span', 'day-name', dayName),
+              temps,
+              createElement('span', 'day-condition', condition)
+            );
+            grid.append(cell);
+          }
+
+          forecast.append(grid);
+        }
+
+        card.append(forecast);
+        return card;
+      }
+
+      function renderWeather(weather) {
+        clearClockTimer();
+        nodes.weather.replaceChildren();
+
+        const entries = Array.isArray(weather) ? weather.filter(isRecord) : [];
+        if (!entries.length) {
+          const empty = createElement('section', 'card weather-card');
+          empty.append(createElement('p', 'empty-note', 'Погода —'));
+          nodes.weather.append(empty);
+          return;
+        }
+
+        const clocks = [];
+        for (const entry of entries) {
+          nodes.weather.append(createWeatherCard(entry, clocks));
+        }
+
+        if (clocks.length) {
+          updateClocks(clocks);
+          clockTimer = window.setInterval(() => updateClocks(clocks), CLOCK_INTERVAL);
+        }
+      }
+
+      function createProgress(value, total, label, valueText) {
+        const ratio = Math.max(0, Math.min(1, value / total));
+        const percent = ratio * 100;
+        const track = createElement('div', 'progress');
+        const fill = createElement('span', 'progress-fill');
+
+        track.setAttribute('role', 'progressbar');
+        track.setAttribute('aria-label', label);
+        track.setAttribute('aria-valuemin', '0');
+        track.setAttribute('aria-valuemax', '100');
+        track.setAttribute('aria-valuenow', String(Math.round(percent)));
+        if (valueText) track.setAttribute('aria-valuetext', valueText);
+
+        fill.style.width = `${percent.toFixed(1)}%`;
+        track.append(fill);
+        return track;
+      }
+
+      function createSparkline(history) {
+        const container = createElement('div', 'sparkline');
+        const values = Array.isArray(history)
+          ? history
+              .filter(isRecord)
+              .map((point) => point.value)
+              .filter(isFiniteNumber)
+          : [];
+
+        if (!values.length) {
+          container.append(createElement('span', 'sparkline-empty', '—'));
+          return container;
+        }
+
+        const points = values.length === 1 ? [values[0], values[0]] : values.slice();
+        const min = Math.min(...points);
+        const max = Math.max(...points);
+        const height = 26;
+        const padding = 2;
+        const flat = max === min;
+        const lastIndex = points.length - 1;
+        const rising = points[lastIndex] >= points[0];
+
+        container.classList.toggle('down', !rising);
+        container.setAttribute('role', 'img');
+        container.setAttribute('aria-label', rising ? 'Динамика баланса: рост' : 'Динамика баланса: снижение');
+
+        const svg = document.createElementNS(SVG_NS, 'svg');
+        svg.setAttribute('viewBox', `0 0 100 ${height}`);
+        svg.setAttribute('preserveAspectRatio', 'none');
+        svg.setAttribute('aria-hidden', 'true');
+
+        const polyline = document.createElementNS(SVG_NS, 'polyline');
+        const coords = points.map((value, index) => {
+          const x = padding + (index / lastIndex) * (100 - padding * 2);
+          const y = flat
+            ? height / 2
+            : padding + (1 - (value - min) / (max - min)) * (height - padding * 2);
+          return `${x.toFixed(2)},${y.toFixed(2)}`;
+        });
+        polyline.setAttribute('points', coords.join(' '));
+        polyline.setAttribute('vector-effect', 'non-scaling-stroke');
+
+        svg.append(polyline);
+        container.append(svg);
+        return container;
+      }
+
+      function createBalanceCard(balance) {
+        const card = createElement('article', 'card balance-card');
+        const name = asText(balance.name);
+        const head = createElement('div', 'balance-head');
+        head.append(createElement('span', 'balance-name', name));
+
+        if (typeof balance.plan === 'string' && balance.plan.trim()) {
+          head.append(createElement('span', 'plan-badge', balance.plan.trim()));
+        }
+        card.append(head);
+
+        const hasUsd = isFiniteNumber(balance.balanceUsd);
+        const hasCredits = isFiniteNumber(balance.credits);
+
+        if (hasUsd) {
+          const value = createElement('div', 'balance-value');
+          value.append(
+            createElement('span', 'balance-currency', '$'),
+            document.createTextNode(numberFormat2.format(balance.balanceUsd))
+          );
+          card.append(value);
+        } else if (hasCredits) {
+          card.append(createElement('div', 'balance-value', numberFormat0.format(balance.credits)));
+          if (isFiniteNumber(balance.creditsTotal)) {
+            card.append(
+              createElement('div', 'balance-sub', `из ${numberFormat0.format(balance.creditsTotal)} кредитов`)
+            );
+          }
+        } else {
+          card.append(createElement('div', 'balance-value', '—'));
+        }
+
+        if (hasUsd && isFiniteNumber(balance.totalUsd) && balance.totalUsd > 0) {
+          card.append(
+            createProgress(
+              balance.balanceUsd,
+              balance.totalUsd,
+              `Остаток ${name}`,
+              `${numberFormat2.format(balance.balanceUsd)} из ${numberFormat2.format(balance.totalUsd)} USD`
+            )
+          );
+        } else if (hasCredits && isFiniteNumber(balance.creditsTotal) && balance.creditsTotal > 0) {
+          card.append(
+            createProgress(
+              balance.credits,
+              balance.creditsTotal,
+              `Остаток ${name}`,
+              `${numberFormat0.format(balance.credits)} из ${numberFormat0.format(balance.creditsTotal)} кредитов`
+            )
+          );
+        }
+
+        const isSuno =
+          name === 'Suno' ||
+          typeof balance.plan === 'string' ||
+          hasCredits ||
+          'downloadsUsed' in balance ||
+          'downloadsTotal' in balance;
+
+        if (isSuno) {
+          const renewal = createElement('div', 'renewal', formatRenewal(balance.renewalDate));
+          const title = renewalTitle(balance.renewalDate);
+          if (title) renewal.title = title;
+          card.append(renewal);
+
+          const downloadsUsed = isFiniteNumber(balance.downloadsUsed)
+            ? numberFormat0.format(balance.downloadsUsed)
+            : '—';
+          const downloadsTotal = isFiniteNumber(balance.downloadsTotal)
+            ? numberFormat0.format(balance.downloadsTotal)
+            : '—';
+          card.append(
+            createElement(
+              'div',
+              'downloads',
+              `Скачивания: использовано ${downloadsUsed} из ${downloadsTotal}`
+            )
+          );
+        }
+
+        if (hasUsd) {
+          card.append(createSparkline(balance.history));
+        }
+
+        return card;
+      }
+
+      function renderBalances(balances) {
+        nodes.balances.replaceChildren();
+
+        const entries = Array.isArray(balances) ? balances.filter(isRecord) : [];
+        if (!entries.length) {
+          const empty = createElement('div', 'card empty-card');
+          empty.append(createElement('p', 'empty-note', 'Балансы —'));
+          nodes.balances.append(empty);
+          return;
+        }
+
+        for (const entry of entries) {
+          nodes.balances.append(createBalanceCard(entry));
+        }
+      }
+
+      function renderAll(data) {
+        clearClockTimer();
+
+        try {
+          renderHeader(data);
+        } catch (error) {
+          console.error('Не удалось отрисовать шапку', error);
+          nodes.updatedAt.textContent = '—';
+        }
+
+        try {
+          renderRates(isRecord(data) ? data.rates : undefined);
+        } catch (error) {
+          console.error('Не удалось отрисовать курсы', error);
+          nodes.rates.replaceChildren(createElement('p', 'empty-note', '—'));
+        }
+
+        try {
+          renderWeather(isRecord(data) ? data.weather : undefined);
+        } catch (error) {
+          console.error('Не удалось отрисовать погоду', error);
+          clearClockTimer();
+          const empty = createElement('section', 'card weather-card');
+          empty.append(createElement('p', 'empty-note', 'Погода —'));
+          nodes.weather.replaceChildren(empty);
+        }
+
+        try {
+          renderBalances(isRecord(data) ? data.balances : undefined);
+        } catch (error) {
+          console.error('Не удалось отрисовать балансы', error);
+          const empty = createElement('div', 'card empty-card');
+          empty.append(createElement('p', 'empty-note', 'Балансы —'));
+          nodes.balances.replaceChildren(empty);
+        }
+      }
+
+      async function refreshData() {
+        if (requestInFlight) return;
+        requestInFlight = true;
+
+        try {
+          const response = await fetch(`data.json?t=${Date.now()}`, { cache: 'no-store' });
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+          }
+
+          const data = await response.json();
+          if (!isRecord(data)) {
+            throw new Error('Некорректный формат data.json');
+          }
+
+          lastData = data;
+          renderAll(lastData);
+          setStale(false);
+        } catch (error) {
+          console.warn('Не удалось обновить данные', error);
+          if (lastData) {
+            setStale(true);
+          } else {
+            renderAll(null);
+            setStale(true);
+          }
+        } finally {
+          requestInFlight = false;
+        }
+      }
+
+      renderAll(null);
+      setStale(false);
+      refreshData();
+      window.setInterval(refreshData, REFRESH_INTERVAL);
+    })();
+  </script>
+</body>
+</html>
