@@ -402,8 +402,9 @@
     .downloads {
       margin-top: 3px;
       color: var(--muted);
-      font-size: 9.5px;
+      font-size: 11.5px;
       line-height: 1.35;
+      text-wrap: balance;
     }
 
     .sparkline {
@@ -753,6 +754,7 @@
           return weather.clockTimezone.trim();
         }
         if (weather.city === 'Владивосток') return 'Asia/Vladivostok';
+        if (weather.city === 'Сочи') return 'Europe/Moscow';
         return null;
       }
 
