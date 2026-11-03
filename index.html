@@ -1008,9 +1008,10 @@
           if (title) renewal.title = title;
           card.append(renewal);
 
-          const downloadsUsed = isFiniteNumber(balance.downloadsUsed)
-            ? numberFormat0.format(balance.downloadsUsed)
-            : '—';
+          const downloadsRemaining =
+            isFiniteNumber(balance.downloadsUsed) && isFiniteNumber(balance.downloadsTotal)
+              ? numberFormat0.format(Math.max(0, balance.downloadsTotal - balance.downloadsUsed))
+              : '—';
           const downloadsTotal = isFiniteNumber(balance.downloadsTotal)
             ? numberFormat0.format(balance.downloadsTotal)
             : '—';
@@ -1018,7 +1019,7 @@
             createElement(
               'div',
               'downloads',
-              `Скачивания: использовано ${downloadsUsed} из ${downloadsTotal}`
+              `Скачивания: осталось ${downloadsRemaining} из ${downloadsTotal}`
             )
           );
         }
