@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-11-03T18:13:12+03:00",
+  "updatedAt": "2026-11-03T18:23:43+03:00",
   "rates": {
-    "usdRub": 80.97,
-    "btcUsd": 77117,
-    "goldRubGram": 10275.37
+    "usdRub": 81.67,
+    "btcUsd": 77229,
+    "goldRubGram": null
   },
   "weather": [
     {
