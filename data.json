@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-07T21:23:19+03:00",
+  "updatedAt": "2026-11-07T21:43:18+03:00",
   "rates": {
     "usdRub": 82.14,
     "btcUsd": 75814,
@@ -11,9 +11,9 @@
       "current": {
         "temp": 10.0,
         "feelsLike": 7.0,
-        "humidity": 74.0,
-        "wind": 3.9,
-        "condition": "Местами небольшой дождь"
+        "humidity": 70.0,
+        "wind": 4.4,
+        "condition": "Небольшой ливневый дождь"
       },
       "daily": [
         {
