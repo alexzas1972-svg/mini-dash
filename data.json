@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-07T20:23:18+03:00",
+  "updatedAt": "2026-11-07T20:32:23+03:00",
   "rates": {
     "usdRub": 82.14,
     "btcUsd": 75728,
@@ -71,7 +71,7 @@
   "balances": [
     {
       "name": "DeepSeek",
-      "balanceUsd": 2.72,
+      "balanceUsd": 2.06,
       "history": [
         {
           "date": "2026-11-02",
@@ -91,7 +91,7 @@
         },
         {
           "date": "2026-11-07",
-          "value": 2.72
+          "value": 2.06
         }
       ]
     },
