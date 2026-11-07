@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-07T10:25:08+03:00",
+  "updatedAt": "2026-11-07T10:25:12+03:00",
   "rates": {
     "usdRub": 82.14,
     "btcUsd": 75952,
@@ -97,7 +97,7 @@
     },
     {
       "name": "OpenRouter",
-      "balanceUsd": 11.13,
+      "balanceUsd": 10.61,
       "totalUsd": 35.0,
       "history": [
         {
@@ -111,6 +111,10 @@
         {
           "date": "2026-11-04",
           "value": 11.13
+        },
+        {
+          "date": "2026-11-07",
+          "value": 10.61
         }
       ]
     },
