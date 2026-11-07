@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-07T14:23:07+03:00",
+  "updatedAt": "2026-11-07T15:07:07+03:00",
   "rates": {
     "usdRub": 82.14,
     "btcUsd": 75869,
@@ -40,29 +40,29 @@
       "city": "Владивосток",
       "clockTimezone": "Asia/Vladivostok",
       "current": {
-        "temp": -1.0,
+        "temp": -0.0,
         "feelsLike": -8.0,
-        "humidity": 42.0,
-        "wind": 7.8,
+        "humidity": 49.0,
+        "wind": 10.8,
         "condition": "Ясно"
       },
       "daily": [
         {
           "date": "2026-11-07",
-          "tMin": -5.0,
+          "tMin": -3.0,
           "tMax": 1.0,
           "condition": "Солнечно"
         },
         {
           "date": "2026-11-08",
-          "tMin": -5.0,
-          "tMax": -2.0,
-          "condition": "Облачно"
+          "tMin": -4.0,
+          "tMax": -1.0,
+          "condition": "Пасмурно"
         },
         {
           "date": "2026-11-09",
-          "tMin": -5.0,
-          "tMax": 1.0,
+          "tMin": -4.0,
+          "tMax": 2.0,
           "condition": "Солнечно"
         }
       ]
