@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-08T11:44:10+03:00",
+  "updatedAt": "2026-11-08T11:44:25+03:00",
   "rates": {
     "usdRub": 82.14,
     "btcUsd": 75814,
@@ -129,7 +129,7 @@
     {
       "name": "Suno",
       "plan": "Premier Plan",
-      "credits": 8926,
+      "credits": 8686,
       "creditsTotal": 10000,
       "downloadsUsed": 27,
       "downloadsTotal": 60,
