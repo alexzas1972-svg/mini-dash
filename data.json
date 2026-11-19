@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-19T20:23:11+03:00",
+  "updatedAt": "2026-11-19T21:07:29+03:00",
   "rates": {
     "usdRub": 81.93,
     "btcUsd": 62391,
@@ -42,7 +42,7 @@
       "current": {
         "temp": -8.0,
         "feelsLike": -15.0,
-        "humidity": 54.0,
+        "humidity": 55.0,
         "wind": 5.0,
         "condition": "Ясно"
       },
